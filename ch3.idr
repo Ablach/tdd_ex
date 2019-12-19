@@ -17,7 +17,15 @@ vmap' f [] = []
 vmap' f (x :: xs) = f x :: vmap' f xs
 
 createEmpties : Vect n (Vect 0 elem)
+createEmpties = replicate _ []
+
+transposeHelp : (x : Vect n elem) -> 
+                (xstrans : Vect n (Vect len elem)) -> 
+                Vect n (Vect (S len) elem)
+transposeHelp x [] = []
+transposeHelp (x :: ys) (y :: xs) = (x :: y) :: transposeHelp ys xs
 
 transposeMat : Vect m (Vect n elem) -> Vect n (Vect m elem)
 transposeMat [] = createEmpties
-transposeMat (x :: xs) = ?transposeMat_rhs_2
+transposeMat (x :: xs) = let xstrans = transposeMat xs in
+                             transposeHelp x xstrans
